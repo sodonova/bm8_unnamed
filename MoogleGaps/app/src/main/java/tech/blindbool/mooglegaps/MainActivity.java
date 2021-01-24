@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements
     public static MainActivity mainActivity;
     public static String longitudeCoordinate;
     public static String latitudeCoordinate;
+    public static Double longitude;
+    public static Double latitude;
     private EditText message;
     public static HashMap<Integer, Integer> map = new HashMap<>();
     public static HashMap<Integer, String> messageMap = new HashMap<>();
@@ -67,11 +69,6 @@ public class MainActivity extends AppCompatActivity implements
 //        Request request = ;
         // send the message to firebase under the collection "messages" and the document name as a string
         // i.e.
-        String latlong = "double.tostring(latitude)"+","+"double.tostring(longitude)";
-        HashMap<String, String> data = new HashMap<>();
-        data.put("text", "Hello, I'm a message");
-        db.collection("messages").document(latlong).set(data);
-        Log.i("Unique", "Firebase");
 
         // Firebase stuff
         // Access a Cloud Firestore instance from your Activity
@@ -103,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements
                             locationText.setText(String.format("%s %s",
                                     Double.toString(location.getLongitude()),
                                     Double.toString(location.getLatitude())));
+                            longitude = location.getLongitude();
+                            latitude = location.getLatitude();
                             longitudeCoordinate = Double.toString(location.getLongitude());
                             latitudeCoordinate = Double.toString(location.getLatitude());
                             String value= String.format("%s %s",
@@ -111,6 +110,15 @@ public class MainActivity extends AppCompatActivity implements
                             Intent i = new Intent(MainActivity.this,
                                     MessageActivity.class);
                             i.putExtra("key",value);
+                            messageMap.put(Integer.parseInt(generateCodeText.getText().toString()),
+                                    message.getText().toString());
+                            Log.i("Unique tag", Double.toString(latitude));
+                            String latlong = String.format("%.2f,%.2f", latitude,longitude);
+                            HashMap<String, String> data = new HashMap<>();
+                            data.put(generateCodeText.getText().toString(),message.getText().toString());
+                            db.collection("messages").document(latlong).set(data);
+                            Log.i("Unique", "FIrebase sent");
+
                             startActivity(i);
                         } catch (NullPointerException ne) {
                             CharSequence toastText = "There was an error while collecting the location." +
@@ -138,9 +146,8 @@ public class MainActivity extends AppCompatActivity implements
                 if(message.getText().toString().isEmpty() || message == null) {
                     message.setText("No message was provided");
                 }
-                    messageMap.put(Integer.parseInt(generateCodeText.getText().toString()),
-                            message.getText().toString());
-                    return;
+
+                return;
             }
         });
 

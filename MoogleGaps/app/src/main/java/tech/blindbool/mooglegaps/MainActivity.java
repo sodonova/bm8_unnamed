@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.HashMap;
 import java.util.Random;
 import android.util.Log;
 import android.widget.Toast;
@@ -39,6 +40,12 @@ public class MainActivity extends AppCompatActivity implements
     private TextView locationText;
     private Button locationButton;
     private Button findActivityButton;
+    public static MainActivity mainActivity;
+    public static String longitudeCoordinate;
+    public static String latitudeCoordinate;
+    private TextView message;
+    public static HashMap<Integer, Integer> map;
+    public static HashMap<Integer, String> messageMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +61,22 @@ public class MainActivity extends AppCompatActivity implements
                 Manifest.permission.ACCESS_NETWORK_STATE,
                 Manifest.permission.RECEIVE_BOOT_COMPLETED}, 100);
 
-
+        message = findViewById(R.id.MessageText);
         //generate code button and display text
         generateCodeButton = findViewById(R.id.generateCodeButton);
         generateCodeText = findViewById(R.id.generatedCodeText);
         generateCodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                generateCodeText.setText(generateCode());
+                    generateCodeText.setText(generateCode());
+                    CharSequence toastText = "Code Generated.";
+                    Toast t = Toast.makeText(getApplicationContext(), toastText, Toast.LENGTH_SHORT);
+                    t.show();
+                    //TODO: FIX MAPS BELOW
+                    //String value = String.valueOf(map.put(3, 4));
+                    //messageMap.put(Integer.parseInt(generateCodeText.getText().toString()),
+                    //       message.getText().toString());
+                    return;
             }
         });
 
@@ -73,6 +88,34 @@ public class MainActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 //TODO: set text to the location
                 //locationText.setText("");
+                Radar.getLocation(new Radar.RadarLocationCallback() {
+                    @Override
+                    public void onComplete(Radar.@NotNull RadarStatus radarStatus,
+                                           @Nullable Location location, boolean b) {
+                        try {
+                            String a = Double.toString(location.getLongitude());
+                            String c = Double.toString(location.getLatitude());
+                            locationText.setText(String.format("%s %s",
+                                    Double.toString(location.getLongitude()),
+                                    Double.toString(location.getLatitude())));
+                            longitudeCoordinate = Double.toString(location.getLongitude());
+                            latitudeCoordinate = Double.toString(location.getLatitude());
+                            String value= String.format("%s %s",
+                                    Double.toString(location.getLongitude()),
+                                    String.format(Double.toString(location.getLatitude())));
+                            Intent i = new Intent(MainActivity.this,
+                                    MessageActivity.class);
+                            i.putExtra("key",value);
+                            startActivity(i);
+                        } catch (NullPointerException ne) {
+                            CharSequence toastText = "There was an error while collecting the location." +
+                                    "Please ensure your location is on and has high accuracy";
+                            Toast toast = Toast.makeText(getApplicationContext(), toastText, Toast.LENGTH_SHORT);
+                            toast.show();
+                            return;
+                        }
+                    }
+                });
             }
         });
 
@@ -81,17 +124,64 @@ public class MainActivity extends AppCompatActivity implements
         findActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Radar.getLocation(new Radar.RadarLocationCallback() {
+                    @Override
+                    public void onComplete(Radar.@NotNull RadarStatus radarStatus,
+                                           @Nullable Location location, boolean b) {
+                        try {
+                            String a = Double.toString(location.getLongitude());
+                            String c = Double.toString(location.getLatitude());
+                            locationText.setText(String.format("%s %s",
+                                    Double.toString(location.getLongitude()),
+                                    Double.toString(location.getLatitude())));
+                            longitudeCoordinate = Double.toString(location.getLongitude());
+                            latitudeCoordinate = Double.toString(location.getLatitude());
+                            String value= String.format("%s %s",
+                                    Double.toString(location.getLongitude()),
+                                    String.format(Double.toString(location.getLatitude())));
+                            Intent i = new Intent(MainActivity.this,
+                                    MessageActivity.class);
+                            i.putExtra("key",value);
+                            startActivity(i);
+                        } catch (NullPointerException ne) {
+                            CharSequence toastText = "There was an error while collecting the location." +
+                                    "Please ensure your location is on and has high accuracy";
+                            Toast toast = Toast.makeText(getApplicationContext(), toastText, Toast.LENGTH_SHORT);
+                            toast.show();
+                            return;
+                        }
+                    }
+                });
                 Intent intent = new Intent(MainActivity.this, MessageActivity.class);
 
-                startActivity(intent);
+                //startActivity(intent);
+            } // onClick
+        }); //findActivityButton
+
+    } // on create
+
+    public String getLatitude() {
+        final String[] tempLong = new String[1];
+        Radar.getLocation(new Radar.RadarLocationCallback() {
+            @Override
+            public void onComplete(Radar.@NotNull RadarStatus radarStatus, @Nullable Location location, boolean b) {
+                tempLong[0] = Double.toString(location.getLongitude());
             }
         });
-
+        return tempLong[0];
     }
 
-    public String getGeoCode() {
-        return "Hi there";
+    public String getLongitude() {
+        final String[] tempLat = new String[1];
+        Radar.getLocation(new Radar.RadarLocationCallback() {
+            @Override
+            public void onComplete(Radar.@NotNull RadarStatus radarStatus, @Nullable Location location, boolean b) {
+                tempLat[0] = Double.toString(location.getLongitude());
+            }
+        });
+        return tempLat[0];
     }
+
 
     public String generateCode() {
         Random r = new Random();

@@ -43,9 +43,9 @@ public class MessageActivity extends MainActivity {
         messageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(MainActivity.map.containsValue(Integer.parseInt(codeText.toString()))) {
+                if(MainActivity.map.containsValue(Integer.parseInt(codeText.getText().toString()))) {
                     messageText.setText(MainActivity.messageMap.
-                            get(Integer.parseInt(codeText.toString())));
+                            get(Integer.parseInt(codeText.getText().toString())));
                 }
             }
         });

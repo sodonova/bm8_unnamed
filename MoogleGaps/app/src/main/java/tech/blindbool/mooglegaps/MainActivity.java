@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.HashMap;
 import java.util.Random;
 import android.util.Log;
 import android.widget.Toast;
@@ -29,6 +30,11 @@ import io.radar.sdk.Radar;
 import io.radar.sdk.model.RadarEvent;
 import io.radar.sdk.model.RadarUser;
 import android.Manifest.permission.*;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+
+
 public class MainActivity extends AppCompatActivity implements
         ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -39,6 +45,24 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.i("Unique", "Running");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Log.i("Unique", "Firebase");
+                // backend workflow:
+        // send geofence to radar with POST request:
+//        OkHttpClient client = new OkHttpClient().newBuilder()
+//                .build();
+//        Request request = ;
+        // send the message to firebase under the collection "messages" and the document name as a string
+        // i.e.
+        String latlong = "double.tostring(latitude)"+","+"double.tostring(longitude)";
+        HashMap<String, String> data = new HashMap<>();
+        data.put("text", "Hello, I'm a message");
+        db.collection("messages").document(latlong).set(data);
+        Log.i("Unique", "Firebase");
+
+        // Firebase stuff
+        // Access a Cloud Firestore instance from your Activity
         // get perms (every time)
         //TODO: check if we have perms first
         Log.i("Unique", "requesting perms");

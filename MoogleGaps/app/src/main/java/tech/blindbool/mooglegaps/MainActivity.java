@@ -10,6 +10,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements
     public static MainActivity mainActivity;
     public static String longitudeCoordinate;
     public static String latitudeCoordinate;
-    private TextView message;
+    private EditText message;
     public static HashMap<Integer, Integer> map = new HashMap<>();
     public static HashMap<Integer, String> messageMap = new HashMap<>();
 
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements
                 Manifest.permission.ACCESS_NETWORK_STATE,
                 Manifest.permission.RECEIVE_BOOT_COMPLETED}, 100);
 
-        message = (TextView) findViewById(R.id.MessageText);
+        message = findViewById(R.id.textMessage);
         //generate code button and display text
         generateCodeButton = findViewById(R.id.generateCodeButton);
         generateCodeText = findViewById(R.id.generatedCodeText);
@@ -134,11 +135,11 @@ public class MainActivity extends AppCompatActivity implements
                     //       message.getText().toString());
 //                generateCodeText.setText(String.format("%s-%s",
 //                        generateCodeText.getText().toString(), "5"));
-//                if(message.getText().toString().isEmpty() || message == null) {
-//                    message.setText("No message was provided");
-//                }
+                if(message.getText().toString().isEmpty() || message == null) {
+                    message.setText("No message was provided");
+                }
                     messageMap.put(Integer.parseInt(generateCodeText.getText().toString()),
-                            "This is a sample message");
+                            message.getText().toString());
                     return;
             }
         });

@@ -32,7 +32,7 @@
         app:layout_constraintVertical_bias="0.699" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/textMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -70,7 +70,7 @@
         app:layout_constraintVertical_bias="0.566" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/locationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="*Insert Current location*"
@@ -82,7 +82,7 @@
         app:layout_constraintVertical_bias="0.341" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/locationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Update my location"
@@ -92,5 +92,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.421" />
+
+    <Button
+        android:id="@+id/finder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search a code instead"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.069"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.963" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

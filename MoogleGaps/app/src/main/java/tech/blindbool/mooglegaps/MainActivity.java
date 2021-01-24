@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import io.radar.sdk.Radar;
+import io.radar.sdk.model.RadarAddress;
 import io.radar.sdk.model.RadarEvent;
 import io.radar.sdk.model.RadarUser;
 import android.Manifest.permission.*;
@@ -34,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements
 
     private Button generateCodeButton;
     private TextView generateCodeText;
+    private TextView locationText;
+    private Button locationButton;
+    private Button findActivityButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements
                 Manifest.permission.RECEIVE_BOOT_COMPLETED}, 100);
 
 
+        //generate code button and display text
         generateCodeButton = findViewById(R.id.generateCodeButton);
         generateCodeText = findViewById(R.id.generatedCodeText);
         generateCodeButton.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +64,33 @@ public class MainActivity extends AppCompatActivity implements
                 generateCodeText.setText(generateCode());
             }
         });
+
+        //update location
+        locationButton = findViewById(R.id.locationButton);
+        locationText = findViewById(R.id.locationText);
+        locationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: set text to the location
+                //locationText.setText("");
+            }
+        });
+
+        //open new activity
+        findActivityButton = findViewById(R.id.finder);
+        findActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MessageActivity.class);
+
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    public String getGeoCode() {
+        return "Hi there";
     }
 
     public String generateCode() {

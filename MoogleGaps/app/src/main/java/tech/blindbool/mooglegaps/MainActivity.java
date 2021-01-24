@@ -72,8 +72,11 @@ public class MainActivity extends AppCompatActivity implements
                     CharSequence toastText = "Code Generated.";
                     Toast t = Toast.makeText(getApplicationContext(), toastText, Toast.LENGTH_SHORT);
                     t.show();
-                    //TODO: FIX MAPS BELOW
-                    //String value = String.valueOf(map.put(3, 4));
+                    //TODO: FIX MAPS BELOW,
+                    //get longitude -- the location.getLongitude are displaying longitude
+                    //map.put(Integer.parseInt(longitudeCoordinate),
+                // Integer.parseInt(generateCodeText.getText().toString()))
+                //String value = String.valueOf(map.put(3, 4)); EVEN THIS GIVES AN ERROR
                     //messageMap.put(Integer.parseInt(generateCodeText.getText().toString()),
                     //       message.getText().toString());
                     return;
